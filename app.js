@@ -12,12 +12,10 @@ const fileMessage = document.getElementById('file-message');
 const previewSection = document.getElementById('preview-section');
 const tableContainer = document.getElementById('table-container');
 const optionsAccordion = document.getElementById('optionsAccordion');
-const deleteColumnSection = document.getElementById('delete-column-section');
 const columnSelect = document.getElementById('column-select');
 const deleteColumnBtn = document.getElementById('delete-column-btn');
 const undoDeleteColumnBtn = document.getElementById('undo-delete-column-btn');
 const deleteMessage = document.getElementById('delete-message');
-const prefixSection = document.getElementById('prefix-section');
 const prefixColumnSelect = document.getElementById('prefix-column-select');
 const prefixInput = document.getElementById('prefix-input');
 const addPrefixBtn = document.getElementById('add-prefix-btn');
@@ -27,6 +25,13 @@ const prefixMessage = document.getElementById('prefix-message');
 const downloadSection = document.getElementById('download-section');
 const downloadBtn = document.getElementById('download-btn');
 const loaderOverlay = document.getElementById('loader-overlay');
+
+// --- NUEVA FUNCIÓN: para obtener el nombre base del archivo sin extensión
+function getFileNameWithoutExtension(filename) {
+    const lastDotIndex = filename.lastIndexOf('.');
+    if (lastDotIndex === -1) return filename;
+    return filename.substring(0, lastDotIndex);
+}
 
 // Función para detectar si la primera fila es encabezado
 function detectHeader(data) {
@@ -257,13 +262,8 @@ undoPrefixBtn.addEventListener('click', () => {
     renderTable(modifiedData);
 });
 
-// Evento para descargar archivo modificado con el mismo nombre del archivo subido
+// Evento para descargar archivo modificado
 downloadBtn.addEventListener('click', () => {
-    if (!fileName) {
-        showMessage(fileMessage, '❌ Debes subir un archivo antes de descargar.', 'danger');
-        return;
-    }
-
     showLoader(); // Mostrar loader durante la generación del CSV
 
     let csvContent = "";
@@ -278,9 +278,9 @@ downloadBtn.addEventListener('click', () => {
     const url = URL.createObjectURL(blob);
     downloadLink.href = url;
 
-    // Cambiar la extensión del archivo subido a .csv
-    const newFileName = fileName.replace(/\.[^/.]+$/, "") + "_modificado.csv";
-    downloadLink.download = newFileName;
+    // --- AQUÍ SE UTILIZA getFileNameWithoutExtension ---
+    const baseName = getFileNameWithoutExtension(fileName);
+    downloadLink.download = baseName + ".csv";
 
     document.body.appendChild(downloadLink);
     downloadLink.click();
@@ -288,4 +288,3 @@ downloadBtn.addEventListener('click', () => {
 
     hideLoader(); // Ocultar loader después de la descarga
 });
-
