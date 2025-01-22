@@ -257,8 +257,13 @@ undoPrefixBtn.addEventListener('click', () => {
     renderTable(modifiedData);
 });
 
-// Evento para descargar archivo modificado
+// Evento para descargar archivo modificado con el mismo nombre del archivo subido
 downloadBtn.addEventListener('click', () => {
+    if (!fileName) {
+        showMessage(fileMessage, '❌ Debes subir un archivo antes de descargar.', 'danger');
+        return;
+    }
+
     showLoader(); // Mostrar loader durante la generación del CSV
 
     let csvContent = "";
@@ -272,10 +277,15 @@ downloadBtn.addEventListener('click', () => {
     const downloadLink = document.createElement("a");
     const url = URL.createObjectURL(blob);
     downloadLink.href = url;
-    downloadLink.download = "archivo_modificado.csv";
+
+    // Cambiar la extensión del archivo subido a .csv
+    const newFileName = fileName.replace(/\.[^/.]+$/, "") + "_modificado.csv";
+    downloadLink.download = newFileName;
+
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
 
     hideLoader(); // Ocultar loader después de la descarga
 });
+
