@@ -1,0 +1,130 @@
+/* Fuente base */
+*{
+    font: 400 16px 'Signika', sans-serif;
+}
+
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.container{
+    padding: 64px;
+    position: relative;
+}
+
+.btn, .status{
+    padding: 8px 16px;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.btn{
+    background: #2f4ad0;
+    box-shadow: 0 8px 6px -6px #555;
+    transition: all .4s ease;
+}
+
+.btn:hover{
+    letter-spacing: 2px;
+    box-shadow: none;
+}
+
+.txt{
+    margin-left: 10px;
+}
+
+#succes, .loader{
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+
+#succes{
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%) scale(0, 0);
+    transition: transform 0.3s ease-in-out;
+}
+
+#succes.active{
+    transform: translate(-50%, -50%) scale(1, 1);
+}
+
+#succes a{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    color: #000;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.status{
+    background: #2fb65a;
+    padding: 10px 20px;
+}
+
+.loader{
+    margin-top: 20px;
+}
+
+.loader::before{
+    content: '';
+    display: block;
+    width: 100px;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.loader::after{
+    content: '0%';
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: #2fb65a;
+    transition: width 10s linear;
+}
+
+.loader.active::after{
+    width: 100%;
+}
+
+#succes:target{
+    transform: translate(-50%, -50%) scale(1, 1);
+}
+
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.8);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .table-preview {
+        max-height: 200px;
+    }
+}
